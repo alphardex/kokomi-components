@@ -17,6 +17,8 @@
 npm i kokomi-components
 ```
 
+See examples: https://kokomi-components.vercel.app/examples/
+
 ## Author
 
 👤 **alphardex**
