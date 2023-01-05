@@ -11,7 +11,7 @@ class Sketch extends kokomi.Base {
     new kokomi.OrbitControls(this);
 
     // checkerboard text
-    const fontUrl = "../../assets/HYWenHei-85W.ttf";
+    const fontUrl = "./HYWenHei-85W.ttf";
 
     await kokomi.preloadSDFFont(fontUrl);
 
