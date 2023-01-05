@@ -10,7 +10,6 @@ class Sketch extends kokomi.Base {
 
     new kokomi.OrbitControls(this);
 
-    // assets
     const am = new kokomi.AssetManager(this, [
       {
         name: "tex",
