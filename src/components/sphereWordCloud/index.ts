@@ -58,10 +58,7 @@ class SphereWordCloud extends kokomi.Component {
     this.getPositions();
   }
   addExisting(): void {
-    const { base, points } = this;
-    const { scene } = base;
-
-    scene.add(points);
+    this.container.add(this.points);
   }
   getPositions() {
     const positionAttribute = this.points.geometry.attributes.position;
@@ -87,8 +84,7 @@ class SphereWordCloud extends kokomi.Component {
     });
   }
   addHtmls() {
-    const { positions } = this;
-    const htmls = positions.map((position, i) => {
+    const htmls = this.positions.map((position, i) => {
       const pointId = i + 1;
       const el = document.querySelector(
         `.${this.baseClassName}-${pointId}`
@@ -99,14 +95,13 @@ class SphereWordCloud extends kokomi.Component {
     this.htmls = htmls;
   }
   addLines() {
-    const { positions } = this;
     const material = new THREE.LineBasicMaterial({
       color: this.lineColor,
       transparent: true,
       opacity: this.lineOpacity,
       depthWrite: false,
     });
-    const lines = positions.map((position) => {
+    const lines = this.positions.map((position) => {
       const points = [this.points.position, position];
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
       const line = new THREE.Line(geometry, material);
@@ -116,19 +111,18 @@ class SphereWordCloud extends kokomi.Component {
     this.lines = lines;
   }
   listenForHoverHtml(onMouseOver: any, onMouseLeave: any) {
-    const { htmls } = this;
-    htmls.forEach((html) => {
+    this.htmls.forEach((html) => {
       html.el?.addEventListener("mouseover", () => {
-        this.emitter.emit("mouseover", html.el);
+        this.emit("mouseover", html.el);
       });
       html.el?.addEventListener("mouseleave", () => {
-        this.emitter.emit("mouseleave", html.el);
+        this.emit("mouseleave", html.el);
       });
     });
-    this.emitter.on("mouseover", (el: HTMLElement) => {
+    this.on("mouseover", (el: HTMLElement) => {
       onMouseOver(el);
     });
-    this.emitter.on("mouseleave", (el: HTMLElement) => {
+    this.on("mouseleave", (el: HTMLElement) => {
       onMouseLeave(el);
     });
   }

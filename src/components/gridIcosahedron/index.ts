@@ -19,7 +19,6 @@ class GridIcosahedron extends kokomi.Component {
     this.uj = new kokomi.UniformInjector(this.base);
 
     const ico = new THREE.Group();
-    this.container.add(ico);
     this.ico = ico;
 
     texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
@@ -74,6 +73,7 @@ class GridIcosahedron extends kokomi.Component {
     this.edgeMesh = edgeMesh;
   }
   addExisting(): void {
+    this.container.add(this.ico);
     this.ico.add(this.shapeMesh);
     this.ico.add(this.edgeMesh);
   }

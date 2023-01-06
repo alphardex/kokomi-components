@@ -69,6 +69,8 @@ class LiquidCrystal extends kokomi.Component {
 
     this.offsetX2 = 0;
     this.offsetY2 = 0;
+
+    sq.container = this.container;
   }
   addExisting(): void {
     this.sq.addExisting();

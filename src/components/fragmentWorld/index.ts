@@ -73,7 +73,7 @@ class Fragment extends kokomi.Component {
     this.uj = uj;
   }
   addExisting() {
-    this.base.scene.add(this.mesh);
+    this.container.add(this.mesh);
   }
   update() {
     const mat = this.mesh.material as THREE.ShaderMaterial;
@@ -114,6 +114,7 @@ class FragmentGroup extends kokomi.Component {
         material,
         points,
       });
+      frag.container = this.container;
       frag.addExisting();
       const firstPoint = frag.points[0];
       frag.mesh.position.set(
@@ -132,7 +133,7 @@ class FragmentGroup extends kokomi.Component {
     this.frags = frags!;
   }
   addExisting() {
-    this.base.scene.add(this.g);
+    this.container.add(this.g);
   }
 }
 
@@ -226,7 +227,7 @@ class FragmentWorld extends kokomi.Component {
     }
 
     const fgsContainer = new THREE.Group();
-    this.base.scene.add(fgsContainer);
+    this.container.add(fgsContainer);
     fgsContainer.position.copy(new THREE.Vector3(-0.36, 0.36, 0.1));
 
     // fragment groups
@@ -239,6 +240,7 @@ class FragmentWorld extends kokomi.Component {
         // @ts-ignore
         polygons,
       });
+      fg.container = this.container;
       fg.addExisting();
       fgsContainer.add(fg.g);
       return fg;
@@ -261,7 +263,7 @@ class FragmentWorld extends kokomi.Component {
     this.isDashing = false;
   }
   addExisting() {
-    this.base.scene.add(this.totalG);
+    this.container.add(this.totalG);
   }
   update() {
     if (this.isShadertoyUniformInjected) {

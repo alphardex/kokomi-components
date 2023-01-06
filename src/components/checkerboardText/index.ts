@@ -68,6 +68,8 @@ class CheckerboardText extends kokomi.Component {
       elList,
     });
     this.mg = mg;
+
+    mg.container = this.container;
   }
   addExisting() {
     this.mg.addExisting();

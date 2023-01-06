@@ -56,12 +56,12 @@ class PencilFilter extends kokomi.Component {
   update(time: number): void {
     this.base.renderer.setRenderTarget(this.normalFBO.rt);
 
-    const om = this.base.scene.overrideMaterial;
-    this.base.scene.overrideMaterial = new THREE.MeshNormalMaterial();
-    const rtScene = this.base.scene;
+    const om = this.container.overrideMaterial;
+    this.container.overrideMaterial = new THREE.MeshNormalMaterial();
+    const rtScene = this.container;
     const rtCamera = this.base.camera;
     this.base.renderer.render(rtScene, rtCamera);
-    this.base.scene.overrideMaterial = om;
+    this.container.overrideMaterial = om;
 
     this.ce.customPass.material.uniforms.tNormals.value =
       this.normalFBO.rt.texture;
