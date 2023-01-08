@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "kokomi.js": "^1.9.52",
+    "kokomi.js": "^1.9.57",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

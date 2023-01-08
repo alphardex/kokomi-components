@@ -90,6 +90,7 @@ class SphereWordCloud extends kokomi.Component {
         `.${this.baseClassName}-${pointId}`
       ) as HTMLElement;
       const html = new kokomi.Html(this.base, el, position);
+      html.addExisting();
       return html;
     });
     this.htmls = htmls;
