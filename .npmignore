@@ -1,9 +1,7 @@
-tsconfig.json
-src
-assets
-node_modules
-docs
 examples
-lp
+libs
+node_modules
+src
 index.html
 rollup.config.mjs
+tsconfig.json

@@ -1,6 +1,7 @@
 export * from "./checkerboardText";
 export * from "./fragmentWorld";
 export * from "./gridIcosahedron";
+export * from "./hologramFilter";
 export * from "./imageTunnel";
 export * from "./liquidCrystal";
 export * from "./pencilFilter";
