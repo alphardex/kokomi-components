@@ -11,47 +11,59 @@ class Sketch extends kokomi.Base {
 
     new kokomi.OrbitControls(this);
 
-    // scene
-    const mesh = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(),
-      new THREE.MeshStandardMaterial({
-        color: "#444444",
-      })
-    );
-    this.scene.add(mesh);
+    const am = new kokomi.AssetManager(this, [
+      {
+        name: "hdrTex",
+        type: "texture",
+        path: "https://s2.loli.net/2023/01/30/OK1mr65Hw9Pdk4Z.png",
+      },
+    ]);
 
-    const ambiLight = new THREE.AmbientLight(0xffffff, 0.5);
-    this.scene.add(ambiLight);
+    am.on("ready", () => {
+      document.querySelector(".loader-screen").classList.add("hollow");
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(1, 2, 3);
-    this.scene.add(dirLight);
+      // scene
+      const envMap = kokomi.getEnvmapFromHDRTexture(
+        this.renderer,
+        am.items["hdrTex"]
+      );
 
-    // postprocessing
-    this.scene.background = new THREE.Color("#000000");
+      const mesh = new THREE.Mesh(
+        new THREE.TorusKnotGeometry(),
+        new THREE.MeshStandardMaterial({
+          envMap,
+          metalness: 0.5,
+          roughness: 0.3,
+        })
+      );
+      this.scene.add(mesh);
 
-    const composer = new POSTPROCESSING.EffectComposer(this.renderer);
-    this.composer = composer;
+      // postprocessing
+      this.scene.background = new THREE.Color("#000000");
 
-    composer.addPass(new POSTPROCESSING.RenderPass(this.scene, this.camera));
+      const composer = new POSTPROCESSING.EffectComposer(this.renderer);
+      this.composer = composer;
 
-    // bloom
-    const bloom = new POSTPROCESSING.BloomEffect({
-      luminanceThreshold: 0.05,
-      luminanceSmoothing: 0,
-      mipmapBlur: true,
-      intensity: 1.2,
-      radius: 0.6,
+      composer.addPass(new POSTPROCESSING.RenderPass(this.scene, this.camera));
+
+      // bloom
+      const bloom = new POSTPROCESSING.BloomEffect({
+        luminanceThreshold: 0.05,
+        luminanceSmoothing: 0,
+        mipmapBlur: true,
+        intensity: 1.5,
+        radius: 0.6,
+      });
+      composer.addPass(new POSTPROCESSING.EffectPass(this.camera, bloom));
+
+      // hologram filter
+      const hfConfig = {
+        progress: 1,
+        glowColor: new THREE.Color("#66ccff"),
+        glowColorStrength: 0.4,
+      };
+      const hf = new kokomiComponents.HologramFilter(hfConfig);
+      composer.addPass(new POSTPROCESSING.EffectPass(this.camera, hf));
     });
-    composer.addPass(new POSTPROCESSING.EffectPass(this.camera, bloom));
-
-    // hologram filter
-    const hfConfig = {
-      progress: 1,
-      glowColor: new THREE.Color("#66ccff"),
-      glowColorStrength: 0.8,
-    };
-    const hf = new kokomiComponents.HologramFilter(hfConfig);
-    composer.addPass(new POSTPROCESSING.EffectPass(this.camera, hf));
   }
 }
