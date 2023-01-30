@@ -15,7 +15,7 @@ class Sketch extends kokomi.Base {
     const mesh = new THREE.Mesh(
       new THREE.TorusKnotGeometry(),
       new THREE.MeshStandardMaterial({
-        color: "#333333",
+        color: "#444444",
       })
     );
     this.scene.add(mesh);
