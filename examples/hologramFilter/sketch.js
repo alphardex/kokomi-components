@@ -6,15 +6,26 @@ import * as kokomiComponents from "kokomi-components";
 import * as POSTPROCESSING from "postprocessing";
 
 class Sketch extends kokomi.Base {
-  async create() {
-    const sc = new kokomi.ScreenCamera(this);
-    sc.addExisting();
+  create() {
+    this.camera.position.set(0, 0, 4);
 
     new kokomi.OrbitControls(this);
 
-    // gallery
-    const ga = new kokomi.Gallery(this);
-    ga.addExisting();
+    // scene
+    const mesh = new THREE.Mesh(
+      new THREE.TorusKnotGeometry(),
+      new THREE.MeshStandardMaterial({
+        color: "#333333",
+      })
+    );
+    this.scene.add(mesh);
+
+    const ambiLight = new THREE.AmbientLight(0xffffff, 0.5);
+    this.scene.add(ambiLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.set(1, 2, 3);
+    this.scene.add(dirLight);
 
     // postprocessing
     this.scene.background = new THREE.Color("#000000");
@@ -29,8 +40,8 @@ class Sketch extends kokomi.Base {
       luminanceThreshold: 0.05,
       luminanceSmoothing: 0,
       mipmapBlur: true,
-      intensity: 0.1,
-      radius: 0.4,
+      intensity: 1.2,
+      radius: 0.6,
     });
     composer.addPass(new POSTPROCESSING.EffectPass(this.camera, bloom));
 
@@ -42,9 +53,5 @@ class Sketch extends kokomi.Base {
     };
     const hf = new kokomiComponents.HologramFilter(hfConfig);
     composer.addPass(new POSTPROCESSING.EffectPass(this.camera, hf));
-
-    await ga.checkImagesLoaded();
-
-    document.querySelector(".loader-screen").classList.add("hollow");
   }
 }

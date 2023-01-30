@@ -6,7 +6,7 @@ import * as kokomiComponents from "kokomi-components";
 
 class Sketch extends kokomi.Base {
   create() {
-    this.camera.position.set(2, 2, 2);
+    this.camera.position.set(0, 0, 4);
 
     new kokomi.OrbitControls(this);
 
@@ -23,8 +23,21 @@ class Sketch extends kokomi.Base {
 
       const tex = am.items["tex"];
 
-      const box = new kokomi.Box(this, { width: 1, height: 1, depth: 1 });
-      box.addExisting();
+      // scene
+      const mesh = new THREE.Mesh(
+        new THREE.TorusKnotGeometry(),
+        new THREE.MeshStandardMaterial({
+          color: "#888888",
+        })
+      );
+      this.scene.add(mesh);
+
+      const ambiLight = new THREE.AmbientLight(0xffffff, 0.5);
+      this.scene.add(ambiLight);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+      dirLight.position.set(1, 2, 3);
+      this.scene.add(dirLight);
 
       // pencil filter
       const pfConfig = {
