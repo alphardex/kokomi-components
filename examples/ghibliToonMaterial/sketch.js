@@ -14,7 +14,7 @@ class Sketch extends kokomi.Base {
 
     const geo = new THREE.TorusKnotGeometry();
 
-    const gbMat = new kokomiComponents.GhibliToonMaterial({
+    const gbConfig = {
       colors: [
         new THREE.Color("#427062"),
         new THREE.Color("#33594E"),
@@ -23,7 +23,8 @@ class Sketch extends kokomi.Base {
       ],
       brightnessThresholds: [0.9, 0.45, 0.001],
       lightPosition: new THREE.Vector3(15, 15, 15),
-    });
+    };
+    const gbMat = new kokomiComponents.GhibliToonMaterial(gbConfig);
 
     const mesh = new THREE.Mesh(geo, gbMat);
     this.scene.add(mesh);
