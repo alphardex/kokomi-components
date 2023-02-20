@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/alphardex/aqua.css/dist/aqua.min.css">
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+  }
+
+  #sketch {
+    width: 100vw;
+    height: 100vh;
+    background: black;
+  }
+</style>
+<div id="sketch"></div>
+<div id="tmpl"></div>
+<script src="https://unpkg.com/kokomi.js/build/kokomi.umd.js"></script>
+<script src="https://unpkg.com/three@0.144.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.11.1/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/lil-gui@0.17.0/dist/lil-gui.umd.min.js"></script>
+<script src="https://unpkg.com/postprocessing/build/postprocessing.min.js"></script>
+<script src="https://unpkg.com/kokomi-components/build/kokomi-components.umd.js"></script>
+<script>
+  const joinLine = (arr) => arr.join("\n");
+
+  // https://stackoverflow.com/a/47614491
+  const setInnerHTML = (elm, html) => {
+    elm.innerHTML = html;
+    Array.from(elm.querySelectorAll("script")).forEach(oldScript => {
+      const newScript = document.createElement("script");
+      Array.from(oldScript.attributes)
+        .forEach(attr => newScript.setAttribute(attr.name, attr.value));
+      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+  }
+
+  const sketchCreator = `
+const createSketch = () => {
+  const sketch = new Sketch();
+  sketch.create();
+  return sketch;
+};
+
+const sketch = createSketch();
+    `
+
+  const lilAlias = `let dat = lil;`;
+
+  const fetchText = (url) => fetch(url).then((res) => res.text())
+
+  const init = async () => {
+    const tmplHTML = await fetchText(`./tmpl.html?v=${Math.random()}`);
+    setInnerHTML(document.querySelector("#tmpl"), tmplHTML);
+    const res = await fetchText(`./sketch.js?v=${Math.random()}`);
+    const s = document.createElement("script");
+    let result = joinLine([res, sketchCreator]);
+    result = result.replace(/import.*;/ig, "");
+    result = joinLine([lilAlias, result]);
+    s.textContent = result;
+    document.documentElement.appendChild(s);
+  }
+
+  init();
+</script>
