@@ -1,6 +1,6 @@
 {
   "name": "kokomi-components",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "./build/kokomi-components.cjs.js",
   "module": "./build/kokomi-components.esm.js",
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "kokomi.js": "^1.9.70",
+    "kokomi.js": "^1.9.71",
     "lodash": "^4.17.21",
     "postprocessing": "^6.29.3",
     "three": "^0.149.0"
