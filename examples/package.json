@@ -3,7 +3,7 @@
     "@types/three": "^0.149.0",
     "gsap": "^3.11.4",
     "kokomi-components": "^1.0.8",
-    "kokomi.js": "^1.9.72",
+    "kokomi.js": "^1.9.73",
     "lil-gui": "^0.17.0"
   }
 }
